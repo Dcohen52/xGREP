@@ -1,13 +1,13 @@
 import os
 from tkinter import filedialog
 from tkinter import *
-
 import colorama
 from colorama import Fore, Back, Style
 import functions
 from functions import select_files, select_folder
 
 colorama.init(autoreset=True)
+
 print(
     """
                                       {0}*** xGREP ***
@@ -27,7 +27,6 @@ defaults apply.
 ---
 """.format(Fore.LIGHTYELLOW_EX, Fore.LIGHTWHITE_EX, Fore.MAGENTA, Fore.LIGHTWHITE_EX, Fore.LIGHTMAGENTA_EX,
            Fore.LIGHTWHITE_EX))
-# search_path = input("[+] Enter desired directory/path to search in: ")
 search_path = input('{0}[+] [-F]/[-f] for visual file dialog, or input manually: '.format(Fore.LIGHTGREEN_EX))
 if search_path == '-f' or search_path == '-F':
     folder_selected = select_folder()
@@ -57,8 +56,6 @@ if not (search_path.endswith("/") or search_path.endswith("\\")):
     search_path = search_path + "/"
 if not os.path.exists(search_path):
     search_path = "."
-# Repeat for each file in the directory
-# output_dict = {}
 output_list = []
 for fname in os.listdir(path=search_path):
 
@@ -78,54 +75,43 @@ for fname in os.listdir(path=search_path):
         fo.close()
 
 # save the output
-save_output = input('{0}[!] Before we continue - Do you want to save the output? [Y/n]: '.format(Fore.LIGHTYELLOW_EX))
+# save_output = input('{0}[!] Before we continue - Do you want to save the output? [Y/n]: '.format(Fore.LIGHTYELLOW_EX))
+#
+# if save_output == 'y' or save_output == 'Y':
+#     root = Tk()
+#     root.withdraw()
+#     f = filedialog.asksaveasfile(mode='w+', defaultextension=".txt",
+#                                  filetypes=[("Log", "*.log"), ("Text Document", "*.txt"), ("All Files", "*.*")])
+#     try:
+#         f.write(str(output_list))
+#         f.close()
+#         print('''
+#
+#         {0}{1}[!] You successfully saved the logs!{2}
+#
+#         '''.format(Fore.LIGHTWHITE_EX, Back.LIGHTGREEN_EX, Back.RESET))
+#     except AttributeError:
+#         print('''
+#
+#         {0}{1}[!] Operation canceled!{2}
+#
+#         '''.format(Fore.BLACK, Back.LIGHTYELLOW_EX, Back.RESET))
+# elif save_output == 'n' or save_output == 'N':
+#     pass
 
-if save_output == 'y' or save_output == 'Y':
-    root = Tk()
-    root.withdraw()
-    f = filedialog.asksaveasfile(mode='w+', defaultextension=".txt",
-                                 filetypes=[("Log", "*.log"), ("Text Document", "*.txt"), ("All Files", "*.*")])
-    # if f is None:  # asksaveasfile return `None` if dialog closed with "cancel".
-    try:
-        f.write(str(output_list))
-        f.close()
-        print('''
-
-        {0}{1}[!] You successfully saved the logs!{2}
-
-        '''.format(Fore.LIGHTWHITE_EX, Back.LIGHTGREEN_EX, Back.RESET))
-    except AttributeError:
-        print('''
-
-        {0}{1}[!] Operation canceled!{2}
-
-        '''.format(Fore.BLACK, Back.LIGHTYELLOW_EX, Back.RESET))
-
-    # f.write(str(output_list))
-    # f.close()
-
-
-elif save_output == 'n' or save_output == 'N':
-    pass
-
-# change the value - mass changer
+# change the value
 change = input('{0}[+] Do you want to replace? [Y/n] [-c] to cancel: '.format(Fore.LIGHTGREEN_EX))
 
 if change == 'Y' or change == 'y':
     word = input('{0}[-] Enter replacement: '.format(Fore.LIGHTGREEN_EX))
     for fname in os.listdir(path=search_path):
 
-        # Apply file type filter
         if fname.endswith(file_type):
-            # Open file for reading
+
             fo = open(search_path + fname, 'rt')
-            # Read the first line from the file
             line = fo.readline()
-            # Initialize counter for line number
             line_no = 1
-            # Loop until EOF
             while line != '':
-                # Search for string in line
                 index = line.find(search_str)
                 fw = open(search_path + fname, 'wt')
                 replacement = fw.write(line.replace(search_str, word))
@@ -135,15 +121,10 @@ if change == 'Y' or change == 'y':
                                                                                        Back.LIGHTGREEN_EX,
                                                                                        Back.RESET))
 
-                # Read next line
                 line = fo.readline()
-                # Increment line counter
                 line_no += 1
                 fw.close()
-            # Close the files
             fo.close()
-            # print('\n{0}{1}[!] Operation completed successfully!{2} \n'.format(Fore.LIGHTWHITE_EX, Back.LIGHTGREEN_EX,
-            #                                                                    Back.RESET))
 
 elif change == 'N' or change == 'n':
     print('[!] So there you go, the log saved automatically to save you some time'
