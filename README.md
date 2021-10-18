@@ -3,7 +3,7 @@ Simple Python program that allow users to search inside multiple files. xGREP su
 
 Search for something (string). xGREP will search for the given string inside all the files in the selected folder/path 
 or selected files. Select files/folder & the program will search for the string in them. If nothing's selected - 
-defaults apply.
+defaults apply. Written in developer's POV.
 
 Example:
  -  Valid path example: C:/Users/admin/Desktop.
